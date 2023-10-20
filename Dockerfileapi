@@ -1,0 +1,23 @@
+# Use an official Python image as the base image
+FROM python:3.8
+
+# Set the working directory inside the container
+WORKDIR /src/rest
+
+# Copy the code into the container
+COPY /src/requirements.txt .
+COPY /src/rest .
+
+# Set environment variables
+ENV PYTHONPATH=$PYTHONPATH:/src/
+ENV MONGO_HOST mongo
+ENV MONGO_PORT 27017
+
+# Install any dependencies the application needs
+RUN pip install -r requirements.txt
+
+# Expose port 8000 to the host
+EXPOSE 8000
+
+# The command to run your application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
